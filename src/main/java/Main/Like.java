@@ -4,6 +4,8 @@ public class Like {
     private UserAccount user;
     private boolean isLike;
 
+
+
     public Like(UserAccount user, boolean isLike) {
         this.user = user;
         this.isLike = isLike;

@@ -2,7 +2,7 @@ package Main;
 
 import java.util.List;
 
-public class Post {
+public class Post implements Comparable{
 
     private String text;
     private List<Like> likes;
@@ -15,6 +15,25 @@ public class Post {
         this.likeNumber = 0;
         this.dislikeNumber = 0;
     }
+
+    //comparing
+
+    @Override
+    public int compareTo(Object post) {
+        if (this.likeNumber - this.dislikeNumber > ((Post)post).likeNumber - ((Post) post).dislikeNumber)
+            return 1;
+        else if (this.likeNumber - this.dislikeNumber < ((Post)post).likeNumber - ((Post) post).dislikeNumber)
+            return -1;
+        else
+        {
+            if (this.comments.size()  > ((Post) post).comments.size())
+                return 1;
+            else if (this.comments.size()  < ((Post) post).comments.size())
+                return -1;
+            else return 0;
+        }
+    }
+
 
     // Getters and Setters ================================================
 

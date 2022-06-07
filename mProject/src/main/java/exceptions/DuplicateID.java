@@ -2,9 +2,9 @@ package exceptions;
 
 import java.util.InputMismatchException;
 
-public class wrongID extends InputMismatchException
+public class DuplicateID extends InputMismatchException
 {
-    public wrongID()
+    public DuplicateID()
     {
         super("duplicate id !");
     }

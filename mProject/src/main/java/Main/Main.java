@@ -1,10 +1,12 @@
 package Main;
 
-import exceptions.wrongID;
+import exceptions.DuplicateID;
+import exceptions.wrongPostID;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 // for test
 public class Main {
@@ -104,7 +106,7 @@ public class Main {
 
     }
 
-    public static void UserEditProfile(String [] order , String [] change)throws wrongID
+    public static void UserEditProfile(String [] order , String [] change)throws DuplicateID
     {
         //order and change always be the same sizes
         for(int i=0 ; i<order.length;++i) {
@@ -136,12 +138,12 @@ public class Main {
         }
     }
 
-    public static void checkID(String ID) throws wrongID
+    public static void checkID(String ID) throws DuplicateID
     {
         for (UserAccount user : allUsers)
         {
             if (user.getID().equals(ID))
-                throw new wrongID();
+                throw new DuplicateID();
         }
     }
 
@@ -152,6 +154,87 @@ public class Main {
 
         for (Post post : user.getPosts())
             print(post.toString());
+
+    }
+
+    public static void addPost(String Text)
+    {
+         Post new_post=new Post(Text , userLoggedIn);
+         userLoggedIn.setPosts(new_post);
+    }
+
+    public static void editPost(String Text ) throws wrongPostID
+    {
+        //we take the string from the graphic
+
+        Post post=findPost();
+        post.setText(Text);
+
+        Notification coomentNotif=new Notification(userLoggedIn , post , "one post from "+userLoggedIn.getID()+
+                "that you put a comment on ,has been edited");
+        for (Comment comment : post.getComments())
+            comment.getUser().setNotifications(coomentNotif);
+
+        Notification LikeNotif=new Notification(userLoggedIn , post , "one post from "+userLoggedIn.getID()+
+                "that you Liked/disliked ,has been edited");
+
+        for (Like like : post.getLikes())
+            like.getUser().setNotifications(LikeNotif);
+
+    }
+
+
+    public static void deletePost () throws wrongPostID
+    {
+        Post post=findPost();
+
+        int index=0;
+        for (Post post1 : userLoggedIn.getPosts()) {
+            if (post.getPost_id() == post1.getPost_id()) {
+                userLoggedIn.getPosts().remove(index);
+                break;
+            }
+            ++index;
+        }
+    }
+
+    public static Post findPost() throws wrongPostID
+    {
+        print("please enter the post id you want to change: ");
+        Scanner sc=new Scanner(System.in);
+
+        int id=sc.nextInt();
+
+        Post post=null;
+        boolean found=false;
+        for (Post post1 : userLoggedIn.getPosts())
+        {
+            if (post1.getPost_id() == id) {
+                found = true;
+                post=post1;
+                break;
+            }
+        }
+        if (! found)
+            throw new wrongPostID();
+
+        return post;
+    }
+
+    public static void lostFollowers ()
+    {
+        print("people who unfollowed you since the last check are as below: ");
+        if (userLoggedIn.getUnfollowed_you().size() == 0) {
+            print("nobody unfollowed you ");
+            return;
+        }
+
+        for (UserAccount user :userLoggedIn.getUnfollowed_you())
+            print(user.getID());
+
+        print("======================================");
+
+        userLoggedIn.getUnfollowed_you().removeAll(userLoggedIn.getUnfollowed_you());
 
     }
 

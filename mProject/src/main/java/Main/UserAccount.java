@@ -17,6 +17,8 @@ public class UserAccount {
     private List<Post> posts;
     private List<UserAccount> requests;
     private List<UserAccount> unfollowers;
+    private List <UserAccount> unfollowed_you;
+    private List <Notification> notifications;
 
     public UserAccount(AccountType type, String name, String birthDay,
                        String phoneNumber, String ID, String password, String bio)
@@ -136,5 +138,21 @@ public class UserAccount {
 
     public void setUnfollowers(UserAccount unfollower) {
         this.unfollowers.add(unfollower);
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Notification notifications) {
+        this.notifications.add(notifications);
+    }
+
+    public List<UserAccount> getUnfollowed_you() {
+        return unfollowed_you;
+    }
+
+    public void setUnfollowed_you(UserAccount unfollowed_you) {
+        this.unfollowed_you.add( unfollowed_you) ;
     }
 }

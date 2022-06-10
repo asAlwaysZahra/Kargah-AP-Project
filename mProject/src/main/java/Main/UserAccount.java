@@ -2,6 +2,7 @@ package Main;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserAccount {
 
@@ -38,6 +39,19 @@ public class UserAccount {
 
     public enum AccountType {
         PRIVATE, PUBLIC
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserAccount that = (UserAccount) o;
+        return type == that.type && Objects.equals(name, that.name)
+                && Objects.equals(birthDay, that.birthDay)
+                && Objects.equals(phoneNumber, that.phoneNumber)
+                && Objects.equals(ID, that.ID)
+                && Objects.equals(password, that.password)
+                && Objects.equals(bio, that.bio);
     }
 
     // Getters and Setters ================================================

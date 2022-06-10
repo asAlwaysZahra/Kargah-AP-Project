@@ -2,19 +2,44 @@ package Main;
 
 import java.util.List;
 
-public class Post {
+public class Post implements Comparable{
 
+    private static int postIDMaker=1000;
+    private int post_id;
     private String text;
     private List<Like> likes;
     private int likeNumber;
     private int dislikeNumber;
     private List<Comment> comments;
+    private UserAccount user_Post;
 
-    public Post(String text) {
+    public Post(String text , UserAccount user_Post) {
         this.text = text;
         this.likeNumber = 0;
         this.dislikeNumber = 0;
+        this.user_Post=user_Post;
+        this.post_id= ++postIDMaker;
+
     }
+
+    //comparing
+
+    @Override
+    public int compareTo(Object post) {
+        if (this.likeNumber - this.dislikeNumber > ((Post)post).likeNumber - ((Post) post).dislikeNumber)
+            return 1;
+        else if (this.likeNumber - this.dislikeNumber < ((Post)post).likeNumber - ((Post) post).dislikeNumber)
+            return -1;
+        else
+        {
+            if (this.comments.size()  > ((Post) post).comments.size())
+                return 1;
+            else if (this.comments.size()  < ((Post) post).comments.size())
+                return -1;
+            else return 0;
+        }
+    }
+
 
     // Getters and Setters ================================================
 
@@ -57,5 +82,21 @@ public class Post {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public UserAccount getUser_Post() {
+        return user_Post;
+    }
+
+    public void setUser_Post(UserAccount user_Post) {
+        this.user_Post = user_Post;
+    }
+
+    public int getPost_id() {
+        return post_id;
+    }
+
+    public void setPost_id(int post_id) {
+        this.post_id = post_id;
     }
 }

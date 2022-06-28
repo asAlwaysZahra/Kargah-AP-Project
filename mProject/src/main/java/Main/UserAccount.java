@@ -8,7 +8,7 @@ public class UserAccount {
 
     private AccountType type;
     private String name;
-    private String birthDay;
+    private String birthDate;
     private String phoneNumber;
     private String ID;
     private String password;
@@ -18,16 +18,16 @@ public class UserAccount {
     private List<Post> posts;
     private List<UserAccount> requests;
     private List<UserAccount> unfollowers;
-    private List <UserAccount> unfollowed_you;
-    private List <Notification> notifications;
+    private List<UserAccount> unfollowed_you;
+    private List<Notification> notifications;
     private List<Post> savedPost;
 
-    public UserAccount(AccountType type, String name, String birthDay,
-                       String phoneNumber, String ID, String password, String bio)
+    public UserAccount(String name, String birthDate, String phoneNumber,
+                       String ID, String password, String bio)
     {
-        this.type = type;
+        this.type = AccountType.PUBLIC;
         this.name = name;
-        this.birthDay = birthDay;
+        this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
         this.ID = ID;
         this.password = password;
@@ -38,6 +38,9 @@ public class UserAccount {
         posts = new ArrayList<>();
         requests = new ArrayList<>();
         unfollowers = new ArrayList<>();
+        unfollowed_you = new ArrayList<>();
+        notifications = new ArrayList<>();
+        savedPost = new ArrayList<>();
     }
 
     @Override
@@ -46,7 +49,7 @@ public class UserAccount {
         if (o == null || getClass() != o.getClass()) return false;
         UserAccount that = (UserAccount) o;
         return type == that.type && Objects.equals(name, that.name)
-                && Objects.equals(birthDay, that.birthDay)
+                && Objects.equals(birthDate, that.birthDate)
                 && Objects.equals(phoneNumber, that.phoneNumber)
                 && Objects.equals(ID, that.ID)
                 && Objects.equals(password, that.password)
@@ -63,12 +66,12 @@ public class UserAccount {
         this.name = name;
     }
 
-    public String getBirthDay() {
-        return birthDay;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthDay(String birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getPhoneNumber() {
@@ -164,7 +167,7 @@ public class UserAccount {
     }
 
     public void setUnfollowed_you(UserAccount unfollowed_you) {
-        this.unfollowed_you.add( unfollowed_you) ;
+        this.unfollowed_you.add(unfollowed_you);
     }
 
     public List<Post> getSavedPost() {

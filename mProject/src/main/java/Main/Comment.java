@@ -1,9 +1,9 @@
 package Main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Comment {
-
 
     private String text;
     private UserAccount user;
@@ -13,6 +13,7 @@ public class Comment {
     public Comment(String text, UserAccount user) {
         this.text = text;
         this.user = user;
+        replies = new ArrayList<>();
     }
 
     // Getters and Setters ================================================

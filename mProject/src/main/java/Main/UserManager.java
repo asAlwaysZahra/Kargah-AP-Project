@@ -12,9 +12,10 @@ public class UserManager {
 
     public static List<UserAccount> allUsers = new ArrayList<>();
     public static UserAccount userLoggedIn;
+
     // zahra -----------------------------------------------------------------------
     public static boolean login(String ID, String password) {
-        for (UserAccount user: allUsers)
+        for (UserAccount user : allUsers)
             if (user.getID().equals(ID)) {
 
                 if (user.getPassword().equals(password)) {
@@ -32,11 +33,12 @@ public class UserManager {
 
         return false;
     }
+
     // -----------------------------------------------------------------------------
     public static ArrayList<UserAccount> didntFollow() {
         ArrayList<UserAccount> accounts = new ArrayList<>();
 
-        for (UserAccount u1: userLoggedIn.getFollowing()) {
+        for (UserAccount u1 : userLoggedIn.getFollowing()) {
             boolean found = false;
             for (UserAccount u2 : u1.getFollowing())
                 if (u2.equals(userLoggedIn)) {
@@ -49,11 +51,12 @@ public class UserManager {
 
         return accounts;
     }
+
     // -----------------------------------------------------------------------------
     public static ArrayList<UserAccount> tarafdarHa() {
         ArrayList<UserAccount> accounts = new ArrayList<>();
 
-        for (UserAccount u1: userLoggedIn.getFollowers()) {
+        for (UserAccount u1 : userLoggedIn.getFollowers()) {
             boolean found = false;
             for (UserAccount u2 : userLoggedIn.getFollowing())
                 if (u2.equals(u1)) {
@@ -66,11 +69,12 @@ public class UserManager {
 
         return accounts;
     }
+
     // -----------------------------------------------------------------------------
     public static ArrayList<UserAccount> followBack() {
         ArrayList<UserAccount> accounts = new ArrayList<>();
 
-        for (UserAccount u1: userLoggedIn.getFollowers()) {
+        for (UserAccount u1 : userLoggedIn.getFollowers()) {
             boolean found = false;
             for (UserAccount u2 : userLoggedIn.getFollowing())
                 if (u2.equals(u1)) {
@@ -83,6 +87,7 @@ public class UserManager {
 
         return accounts;
     }
+
     // -----------------------------------------------------------------------------
     public static UserAccount theMostLikes() {
         // element i -> follower i likes
@@ -104,13 +109,14 @@ public class UserManager {
 
         return userLoggedIn.getFollowers().get(maxIndex);
     }
+
     // -----------------------------------------------------------------------------
     public static UserAccount theMostComments() {
         // element i -> follower i comments
         int[] commentsNumber = new int[userLoggedIn.getFollowers().size()];
 
         for (Post p : userLoggedIn.getPosts())
-            for (Comment c: p.getComments())
+            for (Comment c : p.getComments())
                 for (int i = 0; i < commentsNumber.length; i++)
                     if (userLoggedIn.getFollowers().get(i).equals(c.getUser())) {
                         commentsNumber[i]++;
@@ -125,6 +131,7 @@ public class UserManager {
 
         return userLoggedIn.getFollowers().get(maxIndex);
     }
+
     // -----------------------------------------------------------------------------
     public static ArrayList<UserAccount> suggestions() {
         ArrayList<UserAccount> accounts = new ArrayList<>();
@@ -133,8 +140,8 @@ public class UserManager {
         for (UserAccount u1 : UserManager.followBack())
             followingsOfFollowers.addAll(u1.getFollowing());
 
-        for (int i = 0; i < followingsOfFollowers.size()-1; i++)
-            for (int j = i+1; j < followingsOfFollowers.size(); j++)
+        for (int i = 0; i < followingsOfFollowers.size() - 1; i++)
+            for (int j = i + 1; j < followingsOfFollowers.size(); j++)
                 if (followingsOfFollowers.get(i).equals(followingsOfFollowers.get(j))) {
                     accounts.add(followingsOfFollowers.get(j));
                     break;
@@ -145,8 +152,9 @@ public class UserManager {
         else
             return followingsOfFollowers;
     }
+
     // kimia -----------------------------------------------------------------------
-    public static boolean register(String ID, AccountType type, String name, String birthDay,
+    public static boolean register(String ID, String name, String birthDay,
                                    String phoneNumber, String password, String bio) {
 
         boolean registered = false;
@@ -159,17 +167,15 @@ public class UserManager {
         }
 
         if (!registered) {
-            allUsers.add(new UserAccount(type, name, birthDay, phoneNumber, ID, password, bio));
+            allUsers.add(new UserAccount(name, birthDay, phoneNumber, ID, password, bio));
             registered = true;
-        }
-
-        else
+        } else
             registered = false;
 
         return registered;
     }
 
-    public void addSavedPost(String postText) {
+    public static void addSavedPost(String postText) {
 
         for (Post allPost : PostManager.allPosts) {
             if (allPost.getText().equals(postText))
@@ -178,7 +184,7 @@ public class UserManager {
 
     }
 
-    public void likeCmUnfollowers() {
+    public static void likeCmUnfollowers() {
 
         boolean found = false;
 
@@ -198,7 +204,6 @@ public class UserManager {
         }
 
 
-
         for (Post post : userLoggedIn.getPosts()) {
             for (Comment cm : post.getComments()) {
                 for (UserAccount follower : userLoggedIn.getFollowers())
@@ -214,7 +219,7 @@ public class UserManager {
         }
     }
 
-    public boolean followReq(String ID) {
+    public static boolean followReq(String ID) {
 
         boolean found = false;
 
@@ -228,22 +233,22 @@ public class UserManager {
         return found;
     }
 
-    public void like(String postText) {
+    public static void like(String postText) {
 
         for (Post allPost : PostManager.allPosts) {
             if (allPost.getText().equals(postText)) {
-                allPost.setLikeNumber(allPost.getLikeNumber()+1);
+                allPost.setLikeNumber(allPost.getLikeNumber() + 1);
                 allPost.setLikes(userLoggedIn, true);
                 break;
             }
         }
     }
 
-    public void disLike(String postText) {
+    public static void disLike(String postText) {
 
         for (Post allPost : PostManager.allPosts) {
             if (allPost.getText().equals(postText)) {
-                allPost.setDislikeNumber(allPost.getDislikeNumber()+1);
+                allPost.setDislikeNumber(allPost.getDislikeNumber() + 1);
                 allPost.setLikes(userLoggedIn, false);
                 break;
             }
@@ -256,15 +261,13 @@ public class UserManager {
     }
 
 
-    public static void print(Object o)
-    {
+    public static void print(Object o) {
         System.out.println(o);
     }
 
-    public static List<UserAccount> userNotLiked()
-    {
-        List < UserAccount> FoundUsers=new ArrayList<>();
-        boolean hasEverLiked=false;
+    public static List<UserAccount> userNotLiked() {
+        List<UserAccount> FoundUsers = new ArrayList<>();
+        boolean hasEverLiked = false;
 
         for (UserAccount user : userLoggedIn.getFollowers())
             for (Post eachPost : userLoggedIn.getPosts()) {
@@ -274,7 +277,7 @@ public class UserManager {
                 }
                 if (hasEverLiked)
                     FoundUsers.add(user);
-                hasEverLiked=false;
+                hasEverLiked = false;
             }
 
         return FoundUsers;
@@ -299,14 +302,11 @@ public class UserManager {
         return FoundUsers;
     }
 
-    public static void deleteUser(UserAccount user)
-    {
+    public static void deleteUser(UserAccount user) {
         //delete from all users
-        int index=0;
-        for (UserAccount eachUser : allUsers)
-        {
-            if (user==eachUser)
-            {
+        int index = 0;
+        for (UserAccount eachUser : allUsers) {
+            if (user == eachUser) {
                 allUsers.remove(index);
                 break;
             }
@@ -314,28 +314,24 @@ public class UserManager {
         }
 
         //delete all the user comments and likes
-        for (UserAccount other_user : allUsers)
-        {
-            for (Post post : other_user.getPosts())
-            {
+        for (UserAccount other_user : allUsers) {
+            for (Post post : other_user.getPosts()) {
                 //deleting the user comments
-                index=0;
-                for (Comment comment : post.getComments())
-                {
+                index = 0;
+                for (Comment comment : post.getComments()) {
                     if (comment.getUser() == other_user)
                         post.getComments().remove(index);
                     ++index;
                 }
                 //deleting likes
-                index=0;
-                for (Like like : post.getLikes())
-                {
-                    if (like.getUser()==other_user) {
+                index = 0;
+                for (Like like : post.getLikes()) {
+                    if (like.getUser() == other_user) {
                         post.getLikes().remove(index);
                         if (like.isLike())
-                            post.setLikeNumber(post.getLikeNumber()-1);
+                            post.setLikeNumber(post.getLikeNumber() - 1);
                         else
-                            post.setDislikeNumber(post.getDislikeNumber()-1);
+                            post.setDislikeNumber(post.getDislikeNumber() - 1);
                     }
                     ++index;
                 }
@@ -344,17 +340,15 @@ public class UserManager {
 
     }
 
-    public static void UserEditProfile()throws DuplicateID
-    {
+    public static void UserEditProfile() throws DuplicateID {
         //order and change always be the same sizes
 
-        Scanner sc=new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         print("please enter NAME/BIO/PHONE NUMBER/BIRTH DATE/PASSWORD/TYPE/ID then the new change afterwards ");
 
-        String takeOrder=sc.nextLine();
+        String takeOrder = sc.nextLine();
 
-        String [] orders=takeOrder.split("\\s");
-
+        String[] orders = takeOrder.split("\\s");
 
 
         switch (orders[0]) {
@@ -368,7 +362,7 @@ public class UserManager {
                 userLoggedIn.setPhoneNumber(orders[1]);
                 break;
             case "BIRTH DATE":
-                userLoggedIn.setBirthDay(orders[1]);
+                userLoggedIn.setBirthDate(orders[1]);
                 break;
             case "PASSWORD":
                 userLoggedIn.setPassword(orders[1]);
@@ -386,17 +380,14 @@ public class UserManager {
 
     }
 
-    public static void checkID(String ID) throws DuplicateID
-    {
-        for (UserAccount user : allUsers)
-        {
+    public static void checkID(String ID) throws DuplicateID {
+        for (UserAccount user : allUsers) {
             if (user.getID().equals(ID))
                 throw new DuplicateID();
         }
     }
 
-    public static void postOrganizing(UserAccount user)
-    {
+    public static void postOrganizing(UserAccount user) {
         //organizing from the most liked to the least
         Collections.sort(user.getPosts());
 
@@ -405,25 +396,23 @@ public class UserManager {
 
     }
 
-    public static void addPost(String Text)
-    {
-        Post new_post=new Post(Text , userLoggedIn);
+    public static void addPost(String Text) {
+        Post new_post = new Post(Text, userLoggedIn);
         userLoggedIn.setPosts(new_post);
     }
 
-    public static void editPost(String Text ) throws wrongPostID
-    {
+    public static void editPost(String Text) throws wrongPostID {
         //we take the string from the graphic
 
-        Post post=findPost();
+        Post post = findPost();
         post.setText(Text);
 
-        Notification coomentNotif=new Notification(userLoggedIn , post , "one post from "+userLoggedIn.getID()+
+        Notification coomentNotif = new Notification(userLoggedIn, post, "one post from " + userLoggedIn.getID() +
                 "that you put a comment on ,has been edited");
         for (Comment comment : post.getComments())
             comment.getUser().setNotifications(coomentNotif);
 
-        Notification LikeNotif=new Notification(userLoggedIn , post , "one post from "+userLoggedIn.getID()+
+        Notification LikeNotif = new Notification(userLoggedIn, post, "one post from " + userLoggedIn.getID() +
                 "that you Liked/disliked ,has been edited");
 
         for (Like like : post.getLikes())
@@ -432,11 +421,10 @@ public class UserManager {
     }
 
 
-    public static void deletePost () throws wrongPostID
-    {
-        Post post=findPost();
+    public static void deletePost() throws wrongPostID {
+        Post post = findPost();
 
-        int index=0;
+        int index = 0;
         for (Post post1 : userLoggedIn.getPosts()) {
             if (post.getPost_id() == post1.getPost_id()) {
                 userLoggedIn.getPosts().remove(index);
@@ -446,38 +434,35 @@ public class UserManager {
         }
     }
 
-    public static Post findPost() throws wrongPostID
-    {
+    public static Post findPost() throws wrongPostID {
         print("please enter the post id you want to change: ");
-        Scanner sc=new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        int id=sc.nextInt();
+        int id = sc.nextInt();
 
-        Post post=null;
-        boolean found=false;
-        for (Post post1 : userLoggedIn.getPosts())
-        {
+        Post post = null;
+        boolean found = false;
+        for (Post post1 : userLoggedIn.getPosts()) {
             if (post1.getPost_id() == id) {
                 found = true;
-                post=post1;
+                post = post1;
                 break;
             }
         }
-        if (! found)
+        if (!found)
             throw new wrongPostID();
 
         return post;
     }
 
-    public static void lostFollowers ()
-    {
+    public static void lostFollowers() {
         print("people who unfollowed you since the last check are as below: ");
         if (userLoggedIn.getUnfollowed_you().size() == 0) {
             print("nobody unfollowed you ");
             return;
         }
 
-        for (UserAccount user :userLoggedIn.getUnfollowed_you())
+        for (UserAccount user : userLoggedIn.getUnfollowed_you())
             print(user.getID());
 
         print("======================================");

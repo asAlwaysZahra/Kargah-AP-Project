@@ -1,11 +1,14 @@
 package Main;
 
+import Exceptions.DuplicateID;
+import Exceptions.wrongPostID;
+
 import java.util.Scanner;
 
 public class UserMenu {
     static Scanner sc = new Scanner(System.in);
 
-    public static void menu() {
+    public static void menu() throws wrongPostID {
         while (true) {
             System.out.println("--- User Menu ---");
             System.out.println("[1] Add Request");
@@ -31,28 +34,50 @@ public class UserMenu {
             System.out.println("[21] Followers With No Comments");
             System.out.println("[22] Unfollowers"); // 16
             System.out.println("[23] Your Requests");
-            
+
             int n = sc.nextInt();
 
             switch (n) {
                 case 1:
-
+                    System.out.println("Enter the user's id:");
+                    if (UserManager.followReq(sc.next()))
+                        System.out.println("Your request is sent to user");
+                    else
+                        System.out.println("This user id is wrong");
                     break;
 
                 case 2:
+                    try {
+                        UserManager.UserEditProfile();
+                    } catch (DuplicateID e) {
+                        System.out.println(e.getMessage());
+                    }
 
                     break;
 
                 case 3:
-
+                    System.out.println("Enter text of post:");
+                    sc.next();
+                    UserManager.addPost(sc.nextLine());
                     break;
 
                 case 4:
-
+                    try {
+                        System.out.println("Please enter post's id:");
+                        UserManager.deletePost(sc.nextInt());
+                    } catch (wrongPostID e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case 5:
-
+                    try {
+                        System.out.println("Enter new text for the post and post id:");
+                        sc.next();
+                        UserManager.editPost(sc.nextLine(), sc.nextInt());
+                    } catch (wrongPostID e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case 6:
@@ -60,26 +85,49 @@ public class UserMenu {
                     break;
 
                 case 7:
+                    try {
+                        System.out.println("Enter your post id, user id and comment text");
+                        int postId= sc.nextInt();
+                        sc.next();
+                        String userid = sc.next();
+                        String text = sc.nextLine();
 
+                        if (UserManager.deleteComment(postId, userid, text))
+                            System.out.println("Comment deleted successfully!");
+                        else
+                            System.out.println("This comment with this information doesnt exist");
+
+                    } catch (wrongPostID e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case 8:
-
+                    System.out.println("Your Saved Posts");
+                    for (Post p: UserManager.userLoggedIn.getSavedPost())
+                        System.out.println(p);
                     break;
 
                 case 9:
-
+                    System.out.println("people you followed but they didnt follow you:");
+                    for (UserAccount u: UserManager.didntFollow())
+                        System.out.println(u);
                     break;
 
                 case 10:
-
+                    System.out.println("Your tarafdars:");
+                    for (UserAccount u: UserManager.tarafdarHa())
+                        System.out.println(u);
                     break;
 
                 case 11:
-
+                    System.out.println("both followed each other:");
+                    for (UserAccount u: UserManager.followBack())
+                        System.out.println(u);
                     break;
 
                 case 12:
+                    System.out.println("Recently unfollows: ");
 
                     break;
 

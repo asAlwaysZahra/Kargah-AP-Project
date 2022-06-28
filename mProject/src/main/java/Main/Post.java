@@ -1,5 +1,6 @@
 package Main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Post implements Comparable{
@@ -19,7 +20,7 @@ public class Post implements Comparable{
         this.dislikeNumber = 0;
         this.user_Post=user_Post;
         this.post_id= ++postIDMaker;
-
+        likes = new ArrayList<>();
     }
 
     //comparing

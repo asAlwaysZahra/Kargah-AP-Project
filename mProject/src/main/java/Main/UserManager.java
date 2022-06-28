@@ -34,6 +34,34 @@ public class UserManager {
         return false;
     }
 
+    //-----------------------------------------------------------------------------
+    public static boolean follow(String userId) {
+        for (UserAccount u : allUsers)
+            if (userId.equals(u.getID())) {
+                if (u.getType().equals(AccountType.PRIVATE)) {
+                    userLoggedIn.getFollowing().add(u);
+                    System.out.println("Your request is sent to this user");
+                } else {
+                    u.getRequests().add(userLoggedIn);
+                    System.out.println("You are following this user from now");
+                }
+                return true;
+            }
+        // if user id could not be found
+        return false;
+    }
+
+    // -----------------------------------------------------------------------------
+    public static boolean unfollow(String userId) {
+        for (UserAccount u : allUsers)
+            if (userId.equals(u.getID())) {
+                userLoggedIn.getFollowers().remove(u);
+                return true;
+            }
+        // if user id could not be found
+        return false;
+    }
+
     // -----------------------------------------------------------------------------
     public static ArrayList<UserAccount> didntFollow() {
         ArrayList<UserAccount> accounts = new ArrayList<>();
@@ -133,6 +161,26 @@ public class UserManager {
     }
 
     // -----------------------------------------------------------------------------
+    public static boolean deleteComment(int postId, String userId, String text) throws wrongPostID {
+        Post post = findPost(postId);
+        for (Comment c : post.getComments())
+            if (c.getText().equals(text) && c.getUser().getID().equals(userId)) {
+                post.getComments().remove(c);
+                return true;
+            }
+
+        // if comment doesnt exist
+        return false;
+    }
+
+    //-----------------------------------------------------------------------------
+    public boolean replyComment(int postId, String userId, String firstText, String newText) throws wrongPostID {
+        // todo
+        // if comment doesnt exist
+        return false;
+    }
+
+    // -----------------------------------------------------------------------------
     public static ArrayList<UserAccount> suggestions() {
         ArrayList<UserAccount> accounts = new ArrayList<>();
         ArrayList<UserAccount> followingsOfFollowers = new ArrayList<>();
@@ -222,7 +270,7 @@ public class UserManager {
     public static boolean followReq(String ID) {
 
         boolean found = false;
-
+        // todo if user is not private
         for (UserAccount allUser : allUsers) {
             if (allUser.getID().equals(ID)) {
                 allUser.setRequests(userLoggedIn);
@@ -256,11 +304,6 @@ public class UserManager {
     }
 
     //====================================================melika===========================
-
-    public static void main(String[] args) {
-    }
-
-
     public static void print(Object o) {
         System.out.println(o);
     }
@@ -401,10 +444,10 @@ public class UserManager {
         userLoggedIn.setPosts(new_post);
     }
 
-    public static void editPost(String Text) throws wrongPostID {
+    public static void editPost(String Text, int id) throws wrongPostID {
         //we take the string from the graphic
 
-        Post post = findPost();
+        Post post = findPost(id);
         post.setText(Text);
 
         Notification coomentNotif = new Notification(userLoggedIn, post, "one post from " + userLoggedIn.getID() +
@@ -420,26 +463,12 @@ public class UserManager {
 
     }
 
-
-    public static void deletePost() throws wrongPostID {
-        Post post = findPost();
-
-        int index = 0;
-        for (Post post1 : userLoggedIn.getPosts()) {
-            if (post.getPost_id() == post1.getPost_id()) {
-                userLoggedIn.getPosts().remove(index);
-                break;
-            }
-            ++index;
-        }
+    public static void deletePost(int id) throws wrongPostID {
+        Post post = findPost(id);
+        userLoggedIn.getPosts().remove(post);
     }
 
-    public static Post findPost() throws wrongPostID {
-        print("please enter the post id you want to change: ");
-        Scanner sc = new Scanner(System.in);
-
-        int id = sc.nextInt();
-
+    public static Post findPost(int id) throws wrongPostID {
         Post post = null;
         boolean found = false;
         for (Post post1 : userLoggedIn.getPosts()) {

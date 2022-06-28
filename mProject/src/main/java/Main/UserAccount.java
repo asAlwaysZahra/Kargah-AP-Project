@@ -20,6 +20,7 @@ public class UserAccount {
     private List<UserAccount> unfollowers;
     private List <UserAccount> unfollowed_you;
     private List <Notification> notifications;
+    private List<Post> savedPost;
 
     public UserAccount(AccountType type, String name, String birthDay,
                        String phoneNumber, String ID, String password, String bio)
@@ -37,10 +38,6 @@ public class UserAccount {
         posts = new ArrayList<>();
         requests = new ArrayList<>();
         unfollowers = new ArrayList<>();
-    }
-
-    public enum AccountType {
-        PRIVATE, PUBLIC
     }
 
     @Override
@@ -168,5 +165,13 @@ public class UserAccount {
 
     public void setUnfollowed_you(UserAccount unfollowed_you) {
         this.unfollowed_you.add( unfollowed_you) ;
+    }
+
+    public List<Post> getSavedPost() {
+        return savedPost;
+    }
+
+    public void setSavedPost(Post post) {
+        this.savedPost.add(post);
     }
 }

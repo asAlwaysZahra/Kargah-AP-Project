@@ -7,7 +7,7 @@ public class UserManager {
 
     public static List<UserAccount> allUsers = new ArrayList<>();
     public static UserAccount userLoggedIn;
-
+    // zahra -----------------------------------------------------------------------
     public static boolean login(String ID, String password) {
         for (UserAccount user: allUsers)
             if (user.getID().equals(ID)) {
@@ -140,5 +140,108 @@ public class UserManager {
         else
             return followingsOfFollowers;
     }
-    // -----------------------------------------------------------------------------
+    // kimia -----------------------------------------------------------------------
+    public static boolean register(String ID, AccountType type, String name, String birthDay,
+                                   String phoneNumber, String password, String bio) {
+
+        boolean registered = false;
+
+        for (UserAccount allUser : allUsers) {
+            if (allUser.getID().equals(ID)) {
+                registered = true;
+                break;
+            }
+        }
+
+        if (!registered) {
+            allUsers.add(new UserAccount(type, name, birthDay, phoneNumber, ID, password, bio));
+            registered = true;
+        }
+
+        else
+            registered = false;
+
+        return registered;
+    }
+
+    public void addSavedPost(String postText) {
+
+        for (Post allPost : PostManager.allPosts) {
+            if (allPost.getText().equals(postText))
+                userLoggedIn.setSavedPost(allPost);
+        }
+
+    }
+
+    public void likeCmUnfollowers() {
+
+        boolean found = false;
+
+
+        for (Post post : userLoggedIn.getPosts()) {
+            for (Like like : post.getLikes()) {
+                for (UserAccount follower : userLoggedIn.getFollowers())
+                    if (!follower.getID().equals(like.getUser().getID())) {
+                        found = true;
+                        break;
+                    }
+                if (!found)
+                    System.out.println(like.getUser().getID());
+                else
+                    found = false;
+            }
+        }
+
+
+
+        for (Post post : userLoggedIn.getPosts()) {
+            for (Comment cm : post.getComments()) {
+                for (UserAccount follower : userLoggedIn.getFollowers())
+                    if (!follower.getID().equals(cm.getUser().getID())) {
+                        found = true;
+                        break;
+                    }
+                if (!found)
+                    System.out.println(cm.getUser().getID());
+                else
+                    found = false;
+            }
+        }
+    }
+
+    public boolean followReq(String ID) {
+
+        boolean found = false;
+
+        for (UserAccount allUser : allUsers) {
+            if (allUser.getID().equals(ID)) {
+                allUser.setRequests(userLoggedIn);
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
+
+    public void like(String postText) {
+
+        for (Post allPost : PostManager.allPosts) {
+            if (allPost.getText().equals(postText)) {
+                allPost.setLikeNumber(allPost.getLikeNumber()+1);
+                allPost.setLikes(userLoggedIn, true);
+                break;
+            }
+        }
+    }
+
+    public void disLike(String postText) {
+
+        for (Post allPost : PostManager.allPosts) {
+            if (allPost.getText().equals(postText)) {
+                allPost.setDislikeNumber(allPost.getDislikeNumber()+1);
+                allPost.setLikes(userLoggedIn, false);
+                break;
+            }
+        }
+    }
 }

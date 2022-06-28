@@ -56,8 +56,8 @@ public class Post implements Comparable{
         return likes;
     }
 
-    public void setLikes(List<Like> likes) {
-        this.likes = likes;
+    public void setLikes(UserAccount user, boolean isLike) {
+        this.likes.add(new Like(user, isLike));
     }
 
     public int getLikeNumber() {

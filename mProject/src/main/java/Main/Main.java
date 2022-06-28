@@ -1,7 +1,7 @@
 package Main;
 
-import exceptions.DuplicateID;
-import exceptions.wrongPostID;
+import Exceptions.DuplicateID;
+import Exceptions.wrongPostID;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -128,7 +128,7 @@ public class Main {
                     userLoggedIn.setPassword(change[i]);
                     break;
                 case "TYPE":
-                    userLoggedIn.setType(UserAccount.AccountType.valueOf(change[i]));
+                    userLoggedIn.setType(AccountType.valueOf(change[i]));
                     break;
                 case "ID":
                     checkID(change[i]);

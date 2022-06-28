@@ -3,15 +3,47 @@ package Main;
 import Exceptions.DuplicateID;
 import Exceptions.wrongPostID;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import static Files.reading.readAll;
+import static Files.writing.saveAll;
+
+
 public class UserManager {
 
     public static List<UserAccount> allUsers = new ArrayList<>();
     public static UserAccount userLoggedIn;
+
+
+
+    public static void main(String[] args) {
+
+        try {
+            readAll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
+        try {
+            saveAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     // zahra -----------------------------------------------------------------------
     public static boolean login(String ID, String password) {
         for (UserAccount user: allUsers)
@@ -252,9 +284,6 @@ public class UserManager {
 
     //====================================================melika===========================
 
-    public static void main(String[] args) {
-    }
-
 
     public static void print(Object o)
     {
@@ -469,6 +498,7 @@ public class UserManager {
         return post;
     }
 
+    //showing
     public static void lostFollowers ()
     {
         print("people who unfollowed you since the last check are as below: ");
@@ -484,6 +514,24 @@ public class UserManager {
 
         userLoggedIn.getUnfollowed_you().removeAll(userLoggedIn.getUnfollowed_you());
 
+
+
+    }
+
+    public static void ShowUnfollowing()
+    {
+        print("people you unfollowed recently are as below: ");
+        if (userLoggedIn.getUnfollowers().size() == 0) {
+            print("nobody unfollowed you ");
+            return;
+        }
+
+        for (UserAccount user :userLoggedIn.getUnfollowers())
+            print(user.getID());
+
+        print("======================================");
+
+        userLoggedIn.getUnfollowed_you().removeAll(userLoggedIn.getUnfollowers());
     }
 
     //=============================================melika============================================

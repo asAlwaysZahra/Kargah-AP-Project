@@ -106,36 +106,46 @@ public class Main {
 
     }
 
-    public static void UserEditProfile(String [] order , String [] change)throws DuplicateID
+    public static void UserEditProfile()throws DuplicateID
     {
         //order and change always be the same sizes
-        for(int i=0 ; i<order.length;++i) {
 
-            switch (order[i]) {
+        Scanner sc=new Scanner(System.in);
+        print("please enter NAME/BIO/PHONE NUMBER/BIRTH DATE/PASSWORD/TYPE/ID then the new change afterwards ");
+
+        String takeOrder=sc.nextLine();
+
+        String [] orders=takeOrder.split("\\s");
+
+
+
+            switch (orders[0]) {
                 case "NAME":
-                    userLoggedIn.setName(change[i]);
+                    userLoggedIn.setName(orders[1]);
                     break;
                 case "BIO":
-                    userLoggedIn.setBio(change[i]);
+                    userLoggedIn.setBio(orders[1]);
                     break;
                 case "PHONE NUMBER":
-                    userLoggedIn.setPhoneNumber(change[i]);
+                    userLoggedIn.setPhoneNumber(orders[1]);
                     break;
                 case "BIRTH DATE":
-                    userLoggedIn.setBirthDay(change[i]);
+                    userLoggedIn.setBirthDay(orders[1]);
                     break;
                 case "PASSWORD":
-                    userLoggedIn.setPassword(change[i]);
+                    userLoggedIn.setPassword(orders[1]);
                     break;
                 case "TYPE":
-                    userLoggedIn.setType(AccountType.valueOf(change[i]));
+                    userLoggedIn.setType(AccountType.valueOf(orders[1]));
                     break;
                 case "ID":
-                    checkID(change[i]);
-                    userLoggedIn.setID(change[i]);
+                    checkID(orders[1]);
+                    userLoggedIn.setID(orders[1]);
                     break;
             }
-        }
+
+            print("changed successfully !");
+
     }
 
     public static void checkID(String ID) throws DuplicateID

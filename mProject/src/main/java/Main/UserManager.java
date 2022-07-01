@@ -56,6 +56,7 @@ public class UserManager {
         for (UserAccount u : allUsers)
             if (userId.equals(u.getID())) {
                 userLoggedIn.getFollowers().remove(u);
+                userLoggedIn.getUnfollowers().add(u);
                 return true;
             }
         // if user id could not be found

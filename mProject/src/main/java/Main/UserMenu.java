@@ -6,9 +6,10 @@ import Exceptions.wrongPostID;
 import java.util.Scanner;
 
 public class UserMenu {
+
     static Scanner sc = new Scanner(System.in);
 
-    public static void menu() throws wrongPostID {
+    public static void menu() {
         while (true) {
             System.out.println("--- User Menu ---");
             System.out.println("[1] Add Request");

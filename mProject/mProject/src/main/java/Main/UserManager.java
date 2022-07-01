@@ -501,5 +501,23 @@ public class UserManager {
 
     }
 
+
+
+    public static void unfollowings() {
+        print("people you unfollowed recently: ");
+        if (userLoggedIn.getUnfollowed_you().size() == 0) {
+            print("nobody ");
+            return;
+        }
+
+        for (UserAccount user : userLoggedIn.getUnfollowers())
+            print(user.getID());
+
+        print("======================================");
+
+        userLoggedIn.getUnfollowers().removeAll(userLoggedIn.getUnfollowers());
+
+    }
+
     //=============================================melika============================================
 }

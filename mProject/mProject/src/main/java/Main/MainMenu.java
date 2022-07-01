@@ -44,7 +44,6 @@ public class MainMenu {
         System.out.println("Enter id and password:");
         for (UserAccount u : UserManager.allUsers)
             if (u.getID().equals(sc.next()) && u.getPassword().equals(sc.next())) {
-                UserManager.userLoggedIn =u;
                 UserMenu.menu();
                 return;
             }
